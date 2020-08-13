@@ -9,7 +9,8 @@ orders as (
 select payments.order_id,
         orders.customer_id,
         orders.order_date,
-        payments.amount
-from payments
-left join orders on payments.order_id = orders.order_id
+        sum(payments.amount) as amount
+from orders
+left join payments on payments.order_id = orders.order_id
 where payment_status = 'success'
+group by 1, 2, 3
